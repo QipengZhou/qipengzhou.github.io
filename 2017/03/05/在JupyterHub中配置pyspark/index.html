@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/2 | Epsilon</title>
+  <title>在JupyterHub中配置pyspark | Epsilon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Epsilon">
-<meta property="og:url" content="http://yoursite.com/archives/2017/02/index.html">
+  <meta name="description" content="Spark是一个常用的大数据处理工具, Jupyter是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. JupyterHub是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在图1.JupyterHub和pyspark的网络拓扑图中, JupyterH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在JupyterHub中配置pyspark">
+<meta property="og:url" content="http://yoursite.com/2017/03/05/在JupyterHub中配置pyspark/index.html">
 <meta property="og:site_name" content="Epsilon">
+<meta property="og:description" content="Spark是一个常用的大数据处理工具, Jupyter是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. JupyterHub是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在图1.JupyterHub和pyspark的网络拓扑图中, JupyterH">
+<meta property="og:image" content="http://yoursite.com/images/jupyter_spark.png">
+<meta property="og:updated_time" content="2017-12-03T09:05:54.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Epsilon">
+<meta name="twitter:title" content="在JupyterHub中配置pyspark">
+<meta name="twitter:description" content="Spark是一个常用的大数据处理工具, Jupyter是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. JupyterHub是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在图1.JupyterHub和pyspark的网络拓扑图中, JupyterH">
+<meta name="twitter:image" content="http://yoursite.com/images/jupyter_spark.png">
   
   
     <link rel="icon" href="/resources/favicon.ico">
@@ -147,60 +153,158 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-在JupyterHub中配置pyspark" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/25/开篇/" class="archive-article-date">
-  	<time datetime="2017-02-25T19:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/25/开篇/">开篇</a>
+    <h1 class="article-title" itemprop="name">
+      在JupyterHub中配置pyspark
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/03/05/在JupyterHub中配置pyspark/" class="archive-article-date">
+  	<time datetime="2017-03-05T19:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://spark.apache.org" target="_blank" rel="external">Spark</a>是一个常用的大数据处理工具, <a href="http://jupyter.org" target="_blank" rel="external">Jupyter</a>是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. <a href="https://github.com/jupyterhub/jupyterhub" target="_blank" rel="external">JupyterHub</a>是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在<strong>图1.JupyterHub和pyspark的网络拓扑图</strong>中, JupyterHub作为spark任务的提交节点, spark01-spark04为一个简单的Spark集群. </p>
+<p><center><br><a href="/images/jupyter_spark.png"><img src="/images/jupyter_spark.png" alt="JupyterHub和pyspark的网络拓扑图"></a><br><br>图1. JupyterHub和pyspark的网络拓扑图<br></center><br>假设在JupyterHub这个节点上已安装好JupyterHub, 其路径为<strong>/opt/jupyterhub</strong>. 在spark01-spark04这个四个节点<br>上分别安装python, 假设其路径为<strong>/opt/python</strong>. 另外, 在JupyterHub和spark01-spark04这五个节点上的<strong>Spark</strong>安装路径为<strong>/opt/spark</strong>. 那么其对应的配置文件为:<br><figure class="highlight"><figcaption><span>JupyterHub:/opt/jupyterhub/share/jupyter/kernels/pyspark/kernel.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 连接YARN集群</div><div class="line">&#123;</div><div class="line">  "display_name": "pyspark",</div><div class="line">  "language": "python",</div><div class="line">  "argv": [</div><div class="line">    "/opt/python/bin/python",</div><div class="line">    "-m",</div><div class="line">    "ipykernel",</div><div class="line">    "-f",</div><div class="line">    "&#123;connect_file&#125;"</div><div class="line">  ],</div><div class="line">  "env": &#123;</div><div class="line">      "PYSPARK_PYTHON": "/opt/python/bin/python",</div><div class="line">      "SPARK_HOME": "/opt/spark/python",</div><div class="line">      "PYTHONPATH": "/opt/spark/python/lib/py4j-0.9-src.zip:/opt/spark/python",</div><div class="line">      "PYTHONSTARTUP": "/opt/spark/python/pyspark/shell.py",</div><div class="line">      "PYSPARK_SUBMIT_ARGS": "--master yarn-client pyspark-shell"</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>如果使用的是<strong>Standalone</strong>方式, 则将第17行改为:<strong>“PYSPARK_SUBMIT_ARGS”: “–master spark://sparkMaster:7077 pyspark-shell”</strong>.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">bigdata</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">配置</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/03/05/在JupyterHub中配置pyspark/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/04/05/hadoop中yarn的一些配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          hadoop中yarn的一些配置
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/02/25/开篇/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">开篇</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'qpzhou'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
 
 
           </div>
@@ -223,8 +327,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

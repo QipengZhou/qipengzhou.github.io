@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-02-25T14:09:21.141Z</updated>
+  <updated>2017-12-20T04:54:03.795Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -16,19 +16,67 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>开篇</title>
-    <link href="http://yoursite.com/2017/02/25/%E5%BC%80%E7%AF%87/"/>
-    <id>http://yoursite.com/2017/02/25/开篇/</id>
-    <published>2017-02-25T19:00:00.000Z</published>
-    <updated>2017-02-25T14:09:21.141Z</updated>
+    <title>hadoop中yarn的一些配置</title>
+    <link href="http://yoursite.com/2017/04/05/hadoop%E4%B8%ADyarn%E7%9A%84%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE/"/>
+    <id>http://yoursite.com/2017/04/05/hadoop中yarn的一些配置/</id>
+    <published>2017-04-05T19:00:00.000Z</published>
+    <updated>2017-12-20T04:54:03.795Z</updated>
     
-    <content type="html"><![CDATA[<p>在2015年国庆节的时候就想搭一个博客, 但是由于自己的惰性一直未能完成. 那时是计划用<a href="http://jekyllrb.com/" target="_blank" rel="external">Jekyll</a>去搭建的, 去年的时候又有冲动要搭博客, 弄来弄去还是觉得换一个博客生成器可能更有新鲜感. 于是经过一番搜索找到了<a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>当时还一直纠结用什么主题比较好, 最后选来选去还是敲定了<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">Yilia</a>. </p>
-<p>选好生成器和主题后, 几经折腾, 博客终于搭建完成. 我这个博客的目的还是在记录自己的一些成长过程为主, 如生活体会, 一些技术的总结之类的; 自己应争取每周有所更新.</p>
+    <content type="html"><![CDATA[<p>在<a href="https://hadoop.apache.org" target="_blank" rel="external">Hadoop2</a>中经常会出现<strong>Container is running beyond virtual memory limits</strong>的错误, 详细解答可以参考<a href="https://stackoverflow.com/questions/21005643/container-is-running-beyond-limits" target="_blank" rel="external">Stackoverflow</a>. 具体做法我个人更倾向于<a href="http://blog.cloudera.com/blog/2014/04/apache-hadoop-yarn-avoiding-6-time-consuming-gotchas/" target="_blank" rel="external">cloudera</a>的做法, 直接将<strong>yarn.nodemanager.vmem-check-enabled</strong>设置为<strong>false</strong>.<br><figure class="highlight xml"><figcaption><span>yarn-site.xml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.vmem-check-enabled<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure><br>另外对mapreduce的配置, 如<a href="https://hortonworks.com/blog/how-to-plan-and-configure-yarn-in-hdp-2-0/" target="_blank" rel="external">HDP</a>在文章中用的Map task的container大小为4GB, Reduce task的container大小为8GB. <a href="http://blog.cloudera.com/blog/2014/04/apache-hadoop-yarn-avoiding-6-time-consuming-gotchas/" target="_blank" rel="external">cloudera</a>建议这个比例为2/3.<br><figure class="highlight xml"><figcaption><span>mapred-site.xml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.map.memory.mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>4096<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.reduce.memory.mb<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>8192<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure><br>上述是container的使用的内存大小, 在实际使用时默认是把container内存的0.8分配给task JVM的堆. 当然这个也可以手动配置, 但其大小不能超过container的内存大小, 如下.<br><figure class="highlight xml"><figcaption><span>mapred-site.xml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.map.java.opts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>-Xmx3072m<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.reduce.java.opts<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">value</span>&gt;</span>-Xmx6144m<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;在2015年国庆节的时候就想搭一个博客, 但是由于自己的惰性一直未能完成. 那时是计划用&lt;a href=&quot;http://jekyllrb.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jekyll&lt;/a&gt;去搭建的, 去年的时候又有冲动要搭博客, 
+      &lt;p&gt;在&lt;a href=&quot;https://hadoop.apache.org&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hadoop2&lt;/a&gt;中经常会出现&lt;strong&gt;Container is running beyond virtual memory l
+    
+    </summary>
+    
+    
+      <category term="bigdata" scheme="http://yoursite.com/tags/bigdata/"/>
+    
+      <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在JupyterHub中配置pyspark</title>
+    <link href="http://yoursite.com/2017/03/05/%E5%9C%A8JupyterHub%E4%B8%AD%E9%85%8D%E7%BD%AEpyspark/"/>
+    <id>http://yoursite.com/2017/03/05/在JupyterHub中配置pyspark/</id>
+    <published>2017-03-05T19:00:00.000Z</published>
+    <updated>2017-12-03T09:05:54.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://spark.apache.org" target="_blank" rel="external">Spark</a>是一个常用的大数据处理工具, <a href="http://jupyter.org" target="_blank" rel="external">Jupyter</a>是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. <a href="https://github.com/jupyterhub/jupyterhub" target="_blank" rel="external">JupyterHub</a>是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在<strong>图1.JupyterHub和pyspark的网络拓扑图</strong>中, JupyterHub作为spark任务的提交节点, spark01-spark04为一个简单的Spark集群. </p>
+<p><center><br><a href="/images/jupyter_spark.png"><img src="/images/jupyter_spark.png" alt="JupyterHub和pyspark的网络拓扑图"></a><br><br>图1. JupyterHub和pyspark的网络拓扑图<br></center><br>假设在JupyterHub这个节点上已安装好JupyterHub, 其路径为<strong>/opt/jupyterhub</strong>. 在spark01-spark04这个四个节点<br>上分别安装python, 假设其路径为<strong>/opt/python</strong>. 另外, 在JupyterHub和spark01-spark04这五个节点上的<strong>Spark</strong>安装路径为<strong>/opt/spark</strong>. 那么其对应的配置文件为:<br><figure class="highlight"><figcaption><span>JupyterHub:/opt/jupyterhub/share/jupyter/kernels/pyspark/kernel.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 连接YARN集群</div><div class="line">&#123;</div><div class="line">  "display_name": "pyspark",</div><div class="line">  "language": "python",</div><div class="line">  "argv": [</div><div class="line">    "/opt/python/bin/python",</div><div class="line">    "-m",</div><div class="line">    "ipykernel",</div><div class="line">    "-f",</div><div class="line">    "&#123;connect_file&#125;"</div><div class="line">  ],</div><div class="line">  "env": &#123;</div><div class="line">      "PYSPARK_PYTHON": "/opt/python/bin/python",</div><div class="line">      "SPARK_HOME": "/opt/spark/python",</div><div class="line">      "PYTHONPATH": "/opt/spark/python/lib/py4j-0.9-src.zip:/opt/spark/python",</div><div class="line">      "PYTHONSTARTUP": "/opt/spark/python/pyspark/shell.py",</div><div class="line">      "PYSPARK_SUBMIT_ARGS": "--master yarn-client pyspark-shell"</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>如果使用的是<strong>Standalone</strong>方式, 则将第17行改为:<strong>“PYSPARK_SUBMIT_ARGS”: “–master spark://sparkMaster:7077 pyspark-shell”</strong>.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://spark.apache.org&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Spark&lt;/a&gt;是一个常用的大数据处理工具, &lt;a href=&quot;http://jupyter.org&quot; target=&quot;_blank&quot; re
+    
+    </summary>
+    
+    
+      <category term="bigdata" scheme="http://yoursite.com/tags/bigdata/"/>
+    
+      <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开篇</title>
+    <link href="http://yoursite.com/2017/02/25/%E5%BC%80%E7%AF%87/"/>
+    <id>http://yoursite.com/2017/02/25/开篇/</id>
+    <published>2017-02-25T19:00:00.000Z</published>
+    <updated>2017-02-27T12:59:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>在2015年国庆节的时候就想搭一个博客, 一来用于记录自己的一些生活体会, 另一个主要用于对自己所学的东西做个笔记, 但是由于自己当时的懒惰, 再加之自己技术不成熟(主要还是自己懒惰)等一些原因一直未能完成. 当时我对<a href="https://www.python.org/" target="_blank" rel="external">Python</a>比较熟悉, 但是想多扩大一下自己的眼界^_^, 不想用<a href="https://blog.getpelican.com/" target="_blank" rel="external">Pelican</a>. 于是就尝试用<a href="http://jekyllrb.com/" target="_blank" rel="external">Jekyll</a>去搭建博客, 当时被各种模板主题之类的弄得晕头转向, 结果就一直拖着. 直到去年的时候又铆劲要搭博客, 当时觉得如果再用<a href="http://jekyllrb.com/" target="_blank" rel="external">Jekyll</a>就没有新鲜感了, 于是重新找新的生成器. 找来找去找了自己不熟悉的<a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>, 个中原因是被<a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>超快的生成速度所吸引(其实我也没看出来-_-).</p>
+<p>当时也差点被<a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>的各种主题之类的弄晕, 最后还是决定先选一个主题搭起来再说. 一番艰难的抉择之后选定了<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">Yilia</a>, 主要是看见好几个博客用这个主题来介绍如何搭建博客的, 我想这个主题应该比较适合新手. 选好生成器和主题后, 几经折腾, 博客已初步搭建完成. 完成后这个博客将首先用来记录自己的一些成长(虽然自己已不年轻), 如生活体会, 一些技术总结之类的; 其次自己要努力做到每周都有内容更新.</p>
+<p>从自己搭建博客这个过程, 自己也得到一个重要的教训: 有想法一定要行动起来, 不然始终只会是一个想法. 用古人的话来说就是: <strong>道虽通不行不至, 事虽小不为不成</strong>.</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在2015年国庆节的时候就想搭一个博客, 一来用于记录自己的一些生活体会, 另一个主要用于对自己所学的东西做个笔记, 但是由于自己当时的懒惰, 再加之自己技术不成熟(主要还是自己懒惰)等一些原因一直未能完成. 当时我对&lt;a href=&quot;https://www.python.
     
     </summary>
     

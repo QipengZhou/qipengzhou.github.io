@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/2 | Epsilon</title>
+  <title>ant的简单配置 | Epsilon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Epsilon">
-<meta property="og:url" content="http://yoursite.com/archives/2017/02/index.html">
+  <meta name="description" content="在进行java开发时, 通常使用Maven来进行java项目构建. 但是在没有网络的环境下, 使用Maven就比较麻烦. 本文主要描述使用Ant进行java项目的构建, 包含编译, 打包, 测试三个部分. 其中测试部分使用junit4框架, 如果使用testng框架, 可以参考其官网testngtasks进行配置. 文件的目录结构如下:$ ls projectDirbuild.xml src/ l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ant的简单配置">
+<meta property="og:url" content="http://yoursite.com/2017/05/13/ant的简单配置/index.html">
 <meta property="og:site_name" content="Epsilon">
+<meta property="og:description" content="在进行java开发时, 通常使用Maven来进行java项目构建. 但是在没有网络的环境下, 使用Maven就比较麻烦. 本文主要描述使用Ant进行java项目的构建, 包含编译, 打包, 测试三个部分. 其中测试部分使用junit4框架, 如果使用testng框架, 可以参考其官网testngtasks进行配置. 文件的目录结构如下:$ ls projectDirbuild.xml src/ l">
+<meta property="og:updated_time" content="2018-01-01T05:09:18.006Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Epsilon">
+<meta name="twitter:title" content="ant的简单配置">
+<meta name="twitter:description" content="在进行java开发时, 通常使用Maven来进行java项目构建. 但是在没有网络的环境下, 使用Maven就比较麻烦. 本文主要描述使用Ant进行java项目的构建, 包含编译, 打包, 测试三个部分. 其中测试部分使用junit4框架, 如果使用testng框架, 可以参考其官网testngtasks进行配置. 文件的目录结构如下:$ ls projectDirbuild.xml src/ l">
   
   
     <link rel="icon" href="/resources/favicon.ico">
@@ -147,60 +151,157 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ant的简单配置" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/25/开篇/" class="archive-article-date">
-  	<time datetime="2017-02-25T19:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/25/开篇/">开篇</a>
+    <h1 class="article-title" itemprop="name">
+      ant的简单配置
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/05/13/ant的简单配置/" class="archive-article-date">
+  	<time datetime="2017-05-13T19:02:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在进行java开发时, 通常使用<a href="http://maven.apache.org" target="_blank" rel="external">Maven</a>来进行java项目构建. 但是在没有网络的环境下, 使用Maven就比较麻烦. 本文主要描述使用<a href="http://ant.apache.org" target="_blank" rel="external">Ant</a>进行java项目的构建, 包含编译, 打包, 测试三个部分. 其中测试部分使用<a href="http://junit.org/junit4/" target="_blank" rel="external">junit4</a>框架, 如果使用<a href="http://testng.org" target="_blank" rel="external">testng</a>框架, 可以参考其官网<a href="http://testng.org/doc/ant.html" target="_blank" rel="external">testngtasks</a>进行配置. 文件的目录结构如下:<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ ls projectDir</div><div class="line">build.xml src/ lib/</div></pre></td></tr></table></figure><br>其中, src的目录结构可以进一步参考如下<strong>build.xml</strong>文件中的描述, lib文件夹主要存放依赖库之类的, 如junit的文件是放在这个文件夹里, 在运行ant时记得加上<strong><em>-lib</em></strong>选项, 如:<br><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ ant <span class="built_in">test</span> -lib lib</div></pre></td></tr></table></figure><br>如下是<strong>build.xml</strong>的文件内容:<br><figure class="highlight xml"><figcaption><span>build.xml</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">"my-job"</span> <span class="attr">basedir</span>=<span class="string">"."</span> <span class="attr">default</span>=<span class="string">"jar"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"src.dir"</span> <span class="attr">value</span>=<span class="string">"src"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!--源代码存放路径--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"src.main"</span> <span class="attr">value</span>=<span class="string">"$&#123;src.dir&#125;/main"</span> /&gt;</span></div><div class="line">  </div><div class="line">  <span class="comment">&lt;!--测试代码存放路径--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"src.test"</span> <span class="attr">value</span>=<span class="string">"$&#123;src.dir&#125;/test"</span> /&gt;</span></div><div class="line">  </div><div class="line">  <span class="comment">&lt;!--依赖包路径--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"lib.dir"</span> <span class="attr">value</span>=<span class="string">"lib"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"build.dir"</span> <span class="attr">value</span>=<span class="string">"build"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!--主要编译文件存放路径--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"build.dir.classes"</span> <span class="attr">value</span>=<span class="string">"$&#123;build.dir&#125;/classes"</span>/&gt;</span></div><div class="line">  </div><div class="line">  <span class="comment">&lt;!--测试编译文件存放路径--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"build.dir.test"</span> <span class="attr">value</span>=<span class="string">"$&#123;build.dir&#125;/test"</span>/&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">path</span> <span class="attr">id</span>=<span class="string">"ext-lib"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"$&#123;lib.dir&#125;"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">include</span> <span class="attr">name</span>=<span class="string">"**/*.jar"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">fileset</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="comment">&lt;!--编译测试文件需要使用--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dirset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.classes&#125;"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">path</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"init"</span> <span class="attr">description</span>=<span class="string">"Init environment"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir&#125;"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.classes&#125;"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.test&#125;"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"clean"</span> <span class="attr">description</span>=<span class="string">"Delete all generated files"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">delete</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir&#125;"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">include</span> <span class="attr">name</span>=<span class="string">"**"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">fileset</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.test&#125;"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">include</span> <span class="attr">name</span>=<span class="string">"**"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">fileset</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dirset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.classes&#125;"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dirset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.test&#125;"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dirset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir&#125;"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">delete</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"compile"</span> <span class="attr">description</span>=<span class="string">"Compiles the Task"</span> <span class="attr">depends</span>=<span class="string">"clean,init"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">javac</span> <span class="attr">srcdir</span>=<span class="string">"$&#123;src.main&#125;"</span> <span class="attr">destdir</span>=<span class="string">"$&#123;build.dir.classes&#125;"</span> </span></div><div class="line">           <span class="attr">includeAntRuntime</span>=<span class="string">"false"</span> <span class="attr">verbose</span>=<span class="string">"true"</span>&gt;</div><div class="line">      <span class="tag">&lt;<span class="name">classpath</span> <span class="attr">refid</span>=<span class="string">"ext-lib"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">javac</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"testcompile"</span> <span class="attr">description</span>=<span class="string">"Compiles JUnit Test"</span> <span class="attr">depends</span>=<span class="string">"compile"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">javac</span> <span class="attr">srcdir</span>=<span class="string">"$&#123;src.test&#125;"</span> <span class="attr">destdir</span>=<span class="string">"$&#123;build.dir.test&#125;"</span> </span></div><div class="line">           <span class="attr">includeAntRuntime</span>=<span class="string">"false"</span> <span class="attr">verbose</span>=<span class="string">"true"</span>&gt;</div><div class="line">      <span class="tag">&lt;<span class="name">classpath</span> <span class="attr">refid</span>=<span class="string">"ext-lib"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">javac</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line">  </div><div class="line">  <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"test"</span> <span class="attr">description</span>=<span class="string">"JUnit Test"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">junit</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">classpath</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">path</span> <span class="attr">refid</span>=<span class="string">"ext-lib"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">dirset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.test&#125;"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">classpath</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">formatter</span> <span class="attr">type</span>=<span class="string">"brief"</span> <span class="attr">usefile</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">test</span> <span class="attr">name</span>=<span class="string">"PersonTest"</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">batchtest</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"$&#123;build.dir.test&#125;"</span>&gt;</span></div><div class="line">          <span class="tag">&lt;<span class="name">include</span> <span class="attr">name</span>=<span class="string">"**/*Test.class"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">fileset</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">batchtest</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">junit</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">condition</span> <span class="attr">property</span>=<span class="string">"pkgName"</span> <span class="attr">value</span>=<span class="string">"$&#123;package.name&#125;"</span> <span class="attr">else</span>=<span class="string">"project"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">isset</span> <span class="attr">property</span>=<span class="string">"package.name"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">condition</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"jar"</span> <span class="attr">description</span>=<span class="string">"JARs the Task"</span> <span class="attr">depends</span>=<span class="string">"compile,testcompile"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">jar</span> <span class="attr">destfile</span>=<span class="string">"$&#123;build.dir&#125;/$&#123;pkgName&#125;.jar"</span> <span class="attr">basedir</span>=<span class="string">"$&#123;build.dir.classes&#125;"</span></span></div><div class="line">         <span class="attr">excludes</span>=<span class="string">"$&#123;build.dir&#125;/test/**"</span>&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">jar</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">配置</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ant</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/13/ant的简单配置/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2017/12/23/R方判断模型精度/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          R方判断模型精度?
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2017/04/05/hadoop中yarn的一些配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hadoop中yarn的一些配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'qpzhou'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
 
 
           </div>
@@ -223,8 +324,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
