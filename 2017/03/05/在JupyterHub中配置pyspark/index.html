@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>在JupyterHub中配置pyspark | Epsilon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Spark是一个常用的大数据处理工具, Jupyter是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. JupyterHub是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在图1.JupyterHub和pyspark的网络拓扑图中, JupyterH">
+<meta name="keywords" content="配置,bigdata">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在JupyterHub中配置pyspark">
 <meta property="og:url" content="http://yoursite.com/2017/03/05/在JupyterHub中配置pyspark/index.html">
 <meta property="og:site_name" content="Epsilon">
 <meta property="og:description" content="Spark是一个常用的大数据处理工具, Jupyter是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. JupyterHub是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在图1.JupyterHub和pyspark的网络拓扑图中, JupyterH">
+<meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://yoursite.com/images/jupyter_spark.png">
 <meta property="og:updated_time" content="2017-12-03T09:05:54.000Z">
 <meta name="twitter:card" content="summary">
@@ -36,7 +38,7 @@
   
 
 </head>
-
+</html>
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -166,15 +168,15 @@
 
         
         <a href="/2017/03/05/在JupyterHub中配置pyspark/" class="archive-article-date">
-  	<time datetime="2017-03-05T19:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-05</time>
+  	<time datetime="2017-03-05T11:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-05</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://spark.apache.org" target="_blank" rel="external">Spark</a>是一个常用的大数据处理工具, <a href="http://jupyter.org" target="_blank" rel="external">Jupyter</a>是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. <a href="https://github.com/jupyterhub/jupyterhub" target="_blank" rel="external">JupyterHub</a>是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在<strong>图1.JupyterHub和pyspark的网络拓扑图</strong>中, JupyterHub作为spark任务的提交节点, spark01-spark04为一个简单的Spark集群. </p>
-<p><center><br><a href="/images/jupyter_spark.png"><img src="/images/jupyter_spark.png" alt="JupyterHub和pyspark的网络拓扑图"></a><br><br>图1. JupyterHub和pyspark的网络拓扑图<br></center><br>假设在JupyterHub这个节点上已安装好JupyterHub, 其路径为<strong>/opt/jupyterhub</strong>. 在spark01-spark04这个四个节点<br>上分别安装python, 假设其路径为<strong>/opt/python</strong>. 另外, 在JupyterHub和spark01-spark04这五个节点上的<strong>Spark</strong>安装路径为<strong>/opt/spark</strong>. 那么其对应的配置文件为:<br><figure class="highlight"><figcaption><span>JupyterHub:/opt/jupyterhub/share/jupyter/kernels/pyspark/kernel.json</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// 连接YARN集群</div><div class="line">&#123;</div><div class="line">  "display_name": "pyspark",</div><div class="line">  "language": "python",</div><div class="line">  "argv": [</div><div class="line">    "/opt/python/bin/python",</div><div class="line">    "-m",</div><div class="line">    "ipykernel",</div><div class="line">    "-f",</div><div class="line">    "&#123;connect_file&#125;"</div><div class="line">  ],</div><div class="line">  "env": &#123;</div><div class="line">      "PYSPARK_PYTHON": "/opt/python/bin/python",</div><div class="line">      "SPARK_HOME": "/opt/spark/python",</div><div class="line">      "PYTHONPATH": "/opt/spark/python/lib/py4j-0.9-src.zip:/opt/spark/python",</div><div class="line">      "PYTHONSTARTUP": "/opt/spark/python/pyspark/shell.py",</div><div class="line">      "PYSPARK_SUBMIT_ARGS": "--master yarn-client pyspark-shell"</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>如果使用的是<strong>Standalone</strong>方式, 则将第17行改为:<strong>“PYSPARK_SUBMIT_ARGS”: “–master spark://sparkMaster:7077 pyspark-shell”</strong>.</p>
+        <p><a href="https://spark.apache.org" target="_blank" rel="noopener">Spark</a>是一个常用的大数据处理工具, <a href="http://jupyter.org" target="_blank" rel="noopener">Jupyter</a>是一个notebook的工具, 在Jupyter中可以安装一些kernel进行交互式操作, 具体kernel的安装方法可以参考其官方文档. <a href="https://github.com/jupyterhub/jupyterhub" target="_blank" rel="noopener">JupyterHub</a>是一个Jupyter多租户的管理工具. 在本文中主要是介绍如何在Jupyter中配置一个pyspark核. 在<strong>图1.JupyterHub和pyspark的网络拓扑图</strong>中, JupyterHub作为spark任务的提交节点, spark01-spark04为一个简单的Spark集群. </p>
+<p><center><br><a href="/images/jupyter_spark.png"><img src="/images/jupyter_spark.png" alt="JupyterHub和pyspark的网络拓扑图"></a><br><br>图1. JupyterHub和pyspark的网络拓扑图<br></center><br>假设在JupyterHub这个节点上已安装好JupyterHub, 其路径为<strong>/opt/jupyterhub</strong>. 在spark01-spark04这个四个节点<br>上分别安装python, 假设其路径为<strong>/opt/python</strong>. 另外, 在JupyterHub和spark01-spark04这五个节点上的<strong>Spark</strong>安装路径为<strong>/opt/spark</strong>. 那么其对应的配置文件为:<br><figure class="highlight json"><figcaption><span>JupyterHub:/opt/jupyterhub/share/jupyter/kernels/pyspark/kernel.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// 连接YARN集群</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"display_name"</span>: <span class="string">"pyspark"</span>,</span><br><span class="line">  <span class="attr">"language"</span>: <span class="string">"python"</span>,</span><br><span class="line">  <span class="attr">"argv"</span>: [</span><br><span class="line">    <span class="string">"/opt/python/bin/python"</span>,</span><br><span class="line">    <span class="string">"-m"</span>,</span><br><span class="line">    <span class="string">"ipykernel"</span>,</span><br><span class="line">    <span class="string">"-f"</span>,</span><br><span class="line">    <span class="string">"&#123;connect_file&#125;"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"env"</span>: &#123;</span><br><span class="line">      <span class="attr">"PYSPARK_PYTHON"</span>: <span class="string">"/opt/python/bin/python"</span>,</span><br><span class="line">      <span class="attr">"SPARK_HOME"</span>: <span class="string">"/opt/spark/python"</span>,</span><br><span class="line">      <span class="attr">"PYTHONPATH"</span>: <span class="string">"/opt/spark/python/lib/py4j-0.9-src.zip:/opt/spark/python"</span>,</span><br><span class="line">      <span class="attr">"PYTHONSTARTUP"</span>: <span class="string">"/opt/spark/python/pyspark/shell.py"</span>,</span><br><span class="line">      <span class="attr">"PYSPARK_SUBMIT_ARGS"</span>: <span class="string">"--master yarn-client pyspark-shell"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>如果使用的是<strong>Standalone</strong>方式, 则将第17行改为:<strong>“PYSPARK_SUBMIT_ARGS”: “–master spark://sparkMaster:7077 pyspark-shell”</strong>.</p>
 
       
 
@@ -188,11 +190,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">bigdata</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">配置</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">配置</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">bigdata</a>
         		</li>
       		
 		</ul>
@@ -314,7 +316,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017-2018 bitGroup
+    		&copy; 2017-2019 bitGroup
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -414,6 +416,14 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">geekbang</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">计算机组成原理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">统计</a>
               </li>
              
@@ -426,7 +436,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">bigdata</a>
+                <a href="javascript:void(0)" class="js-tag color4">ant</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -434,7 +444,7 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ant</a>
+                <a href="javascript:void(0)" class="js-tag color3">bigdata</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,13 +514,6 @@ MathJax.Hub.Queue(function() {
             </li>
           
             <li class="search-li">
-              <a href="https://www.sharelatex.com/" target="_blank" class="search-title">
-                <!-- <i class="icon-quo-left icon"></i> -->
-                ShareLatex
-              </a>
-            </li>
-          
-            <li class="search-li">
               <a href="https://www.overleaf.com/" target="_blank" class="search-title">
                 <!-- <i class="icon-quo-left icon"></i> -->
                 Overleaf
@@ -521,6 +524,20 @@ MathJax.Hub.Queue(function() {
               <a href="https://colab.research.google.com/" target="_blank" class="search-title">
                 <!-- <i class="icon-quo-left icon"></i> -->
                 Colaboratory
+              </a>
+            </li>
+          
+            <li class="search-li">
+              <a href="https://distill.pub/" target="_blank" class="search-title">
+                <!-- <i class="icon-quo-left icon"></i> -->
+                Distill
+              </a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://colah.github.io/" target="_blank" class="search-title">
+                <!-- <i class="icon-quo-left icon"></i> -->
+                Colah
               </a>
             </li>
           
@@ -620,20 +637,5 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 </html>
