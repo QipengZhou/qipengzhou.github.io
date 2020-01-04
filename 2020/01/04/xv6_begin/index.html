@@ -6,15 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: ant | Epsilon</title>
+  <title>xv6环境准备 | Epsilon</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Epsilon">
-<meta property="og:url" content="http://yoursite.com/tags/ant/index.html">
+  <meta name="description" content="xv6是mit的教学操作系统, 使用riscv指令集. 如下记录在Ubuntu 18.04上的实验环境准备:">
+<meta name="keywords" content="OS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="xv6环境准备">
+<meta property="og:url" content="http://yoursite.com/2020/01/04/xv6_begin/index.html">
 <meta property="og:site_name" content="Epsilon">
+<meta property="og:description" content="xv6是mit的教学操作系统, 使用riscv指令集. 如下记录在Ubuntu 18.04上的实验环境准备:">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2020-01-04T13:39:14.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Epsilon">
+<meta name="twitter:title" content="xv6环境准备">
+<meta name="twitter:description" content="xv6是mit的教学操作系统, 使用riscv指令集. 如下记录在Ubuntu 18.04上的实验环境准备:">
   
   
     <link rel="icon" href="/resources/favicon.ico">
@@ -148,64 +153,151 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-xv6_begin" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/13/ant的简单配置/" class="archive-article-date">
-  	<time datetime="2017-05-13T11:02:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-13</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/13/ant的简单配置/">ant的简单配置</a>
+    <h1 class="article-title" itemprop="name">
+      xv6环境准备
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2020/01/04/xv6_begin/" class="archive-article-date">
+  	<time datetime="2020-01-04T13:19:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-01-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/mit-pdos/xv6-riscv" target="_blank" rel="noopener">xv6</a>是mit的教学操作系统, 使用riscv指令集. 如下记录在Ubuntu 18.04上的实验环境准备:</p>
+<a id="more"></a>
+<p>详细内容可参考<a href="https://pdos.csail.mit.edu/6.828/2019/tools.html" target="_blank" rel="noopener">mit 6.828</a>.</p>
+<p>第一步, 下载RISC-V的GNU工具链.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone --recursive https://github.com/riscv/riscv-gnu-toolchain </span><br></pre></td></tr></table></figure></p>
+<p>第二步, 安装一些依赖环境.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev gawk build-essential bison flex texinfo gperf libtool patchutils bc zlib1g-dev libexpat-dev</span><br></pre></td></tr></table></figure></p>
+<p>第三步, 编译安装RISC-V工具链.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir /opt/qemu</span><br><span class="line">$ cd riscv-gnu-toolchain</span><br><span class="line">$ ./config --prefix=/opt/qemu</span><br><span class="line">$ sudo make -j$(nproc)</span><br><span class="line">$ cd ..</span><br><span class="line">$ export PATH=/opt/qemu/bin:$&#123;PATH&#125;</span><br></pre></td></tr></table></figure></p>
+<p>第四步, 安装QEMU 4.2.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://download.qemu.org/qemu-4.2.0.tar.xz</span><br><span class="line">$ tar -xvf qemu-4.2.0.tar.xz</span><br><span class="line">$ cd qemu-4.2.0</span><br><span class="line">$ ./configure --disable-kvm --disable-werror --prefix=/opt/qemu --target-list=&quot;riscv64-softmmu&quot;</span><br><span class="line">$ make -j$(nproc)</span><br><span class="line">$ sudo make install</span><br><span class="line">$ cd ..</span><br></pre></td></tr></table></figure></p>
+<p>第五步, 测试.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ riscv64-unknown-elf-gcc --version</span><br><span class="line">riscv64-unknown-elf-gcc (GCC) 9.2.0</span><br><span class="line">$ qemu-system-riscv64 --version</span><br><span class="line">QEMU emulator version 4.2.0</span><br><span class="line">$ git clone https://github.com/mit-pdos/xv6-riscv.git</span><br><span class="line">$ cd xv6-riscv</span><br><span class="line">$ make qemu</span><br><span class="line"># ... lots of outpu ...</span><br><span class="line">init: starting sh</span><br><span class="line">$</span><br></pre></td></tr></table></figure><br><code>Ctrl-A X</code>可退出QEMU.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ant</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">配置</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OS</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2020/01/04/xv6_begin/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/05/30/debug-hexo-generator-json-content/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo-generator-json-content缺失模块</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
+
+<section id="comments">
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'qpzhou'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
 
 
           </div>
@@ -229,9 +321,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
