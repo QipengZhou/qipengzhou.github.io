@@ -129,9 +129,9 @@
     </summary>
     
     
-      <category term="ant" scheme="http://yoursite.com/tags/ant/"/>
-    
       <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+      <category term="ant" scheme="http://yoursite.com/tags/ant/"/>
     
   </entry>
   
@@ -155,9 +155,9 @@
     </summary>
     
     
-      <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
-    
       <category term="bigdata" scheme="http://yoursite.com/tags/bigdata/"/>
+    
+      <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
     
   </entry>
   
@@ -179,9 +179,9 @@
     </summary>
     
     
-      <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
-    
       <category term="bigdata" scheme="http://yoursite.com/tags/bigdata/"/>
+    
+      <category term="配置" scheme="http://yoursite.com/tags/%E9%85%8D%E7%BD%AE/"/>
     
   </entry>
   
